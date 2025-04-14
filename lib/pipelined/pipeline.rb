@@ -2,8 +2,8 @@
 
 module Pipelined
   class Pipeline
-    def initialize(middlewares = [])
-      @middlewares = middlewares
+    def initialize(*middlewares)
+      @middlewares = Array.new(middlewares)
       @uniqed = false
     end
 
@@ -15,7 +15,7 @@ module Pipelined
     def call(env, &final)
       final ||= ->(mod_env) { mod_env }
 
-      uniq_middlewares!.reverse!
+      uniq_middlewares!.reverse
                        .reduce(final) { |acc, elem| ->(mod_env) { elem.new(acc, mod_env).call } }
                        .call(env)
     end
