@@ -3,7 +3,7 @@
 module Pipelined
   class Pipeline
     def initialize(*middlewares)
-      @middlewares = Array.new(middlewares)
+      @middlewares = Array.new(middlewares).flatten
       @uniqed = false
     end
 
